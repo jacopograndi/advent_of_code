@@ -1,0 +1,490 @@
+just a repeated routine, except for an immediate add to x: magic
+
+{wrong}
+hidden rules:
+if curr[n]%26 + magic[n] == i[n]: curr[n] = 0
+curr[n] = (curr[n]*26) + (i[n]+8)
+
+requirement:
+curr[last] = 0
+
+// evidence
+99998499593576 z[14] = 455
+99998499594676 z[14] = 455
+99998499595776 z[14] = 455
+99998499596876 z[14] = 455
+99998499597976 z[14] = 455
+
+99998422592476 z[14] = 13
+89998422592476 z[14] = 13
+98998422592466 z[14] = 13
+99987422592476 z[14] = 13
+69998422592476 z[14] = 13
+
+59998426997979 z[14] = 0
+49998426997978 z[14] = 0
+39998426997977 z[14] = 0
+
+// evidence smaller
+51112188486865 352
+11112111481316 6461
+11114332481315 248
+11113232481315 248
+11114332481315 248
+
+fairy = 1, 1, 1, 1, 26, 26, 1, 1, 26, 26, 1, 26, 26, 26
+magic = 13, 12, 12, 10, -11, -13, 15, 10, -2, -6, 14, 0, -15, -4
+witch = 8, 13, 8, 10, 12, 1, 13, 5, 10, 3, 2, 2, 12, 7
+
+w = in[n]
+x *= 0
+x += z
+x %= 26
+z /= fairy[n]
+x += magic[n]
+x = x==w ? 1 : 0
+x = x==0 ? 1 : 0
+y = 25
+y *= x
+y ++
+z *= y
+y = w+witch[n]
+y *= x
+z += y
+
+// procedure:
+w = in[n]
+x = z%26 + magic[n]
+z /= fairy[n]
+y = 25
+if x == w:
+	z not modified
+else:
+	y = 26
+	z *= 26
+	z += in[n] + witch[n]
+
+// working forwards
+
+n = 0
+x = 13
+z = 9..17
+
+n = 1
+x = 9..17 + 12
+z = (9..17)*26 + 14..22
+
+n = 2
+x = z%26 + 12
+z = z*26 + 9..17 
+  = ((9..17)*26 + 14..22)*26 + 9..17
+
+n = 3
+x = z%26 + 10
+z = z*26 + 11..19
+  = (((9..17)*26 + 14..22)*26 + 9..17)*26 + 11..19
+
+n = 4
+x = z%26 - 11 = 11..19 - 11 => 0..8
+z /= 26 => z = 
+  = ((9..17)*26 + 14..22)*26 + 9..17
+if 1..9 != 0..8:
+	in[4] = 9
+	z = (z*26 + 21)
+	  = (((9..17)*26 + 14..22)*26 + 9..17)*26 + 21
+else:
+	in[4] = 1..8
+	z = ((9..17)*26 + 14..22)*26 + 9..17
+
+n = 5
+case in[4] == 1..8:
+x = z%26 - 13 = 9..17 - 13 = -4..4
+z /= 26 => z = (9..17)*26 + 14..22
+if 1..9 != -4..4:
+	in[5] = 5..9
+	z = z*26 + 5..9 + 1
+	  = ((9..17)*26 + 14..22)*26 + 6..10
+else: 
+	in[5] = 1..4
+	z = (9..17)*26 + 14..22
+case in[4] == 9:
+x = z%26 - 13 = 21 - 13 = 8
+z /= 26 => z = ((9..17)*26 + 14..22)*26 + 9..17
+if 1..9 != 8:
+	in[5] = 1..7,9
+	z = z*26 + 1..7,9 + 1
+	  = (((9..17)*26 + 14..22)*26 + 9..17)*26 + 2..8,10
+else:
+	in[5] = 8
+	z = ((9..17)*26 + 14..22)*26 + 9
+
+n = 6
+case in[4] == 1..8:
+case in[5] == 5..9:
+
+case in[5] == 1..4:
+
+case in[4] == 9: 
+case in[5] == 1..7,9:
+z = (((9..17)*26 + 14..22)*26 + 9..17)*26 + 2..8,10
+x = z%26 + 15 = 2..8,10 + 15 > 9
+z = z*26 + 1..9 + 13 = 
+  = ((((9..17)*26 + 14..22)*26 + 9..17)*26 + 2..8,10)*26 + 14..22
+z is too big, further down it cant be divided enough to be 0
+case in[5] == 8:
+	
+// procedure:
+w = in[n]
+x = z%26 + magic[n]
+z /= fairy[n]
+y = 25
+if x == w:
+	z not modified
+else:
+	y = 26
+	z *= 26
+	z += in[n] + witch[n]
+
+// working backwards
+
+n = 9
+x = z%26 -6
+z = z/26
+if in[n] != x:
+	z = (z*26 + 3 + in[n])
+	
+	at the end z in R[10]
+	if x == in[n] => z%26-6 == 1..9
+		=> z%26 = 7..15
+		=> S[9] = (j*26+7..15 | j in R[10])
+	else
+		at the end z is a multiple of 26 + 3..12
+		=> T[9] = (j+3..12 | j%26 != 7..15, j in R[10])
+	R[9] = S[9] + T[9]
+
+n = 10
+x = z%26 + 14
+if in[n] != x:
+	z = (z*26 + 2 + in[n])
+
+	at the end z in R[11]
+	if x == in[n] => z%26+14 == 1..9
+		z%26 == 15..23
+		but every j in R[11], j%26 = 1..9, impossible
+	else
+		=> z%26 = 0..14 u 24..25
+		=> z = z*26 + 3..11, in R[11] if 3..9
+		=> z = z*26 + 3..9
+		=> R[10] = { j | j%26 != 15..23, j*26+3..9 in R[11] }
+
+n = 11
+x = z%26
+z = z/26
+if in[n] != x:
+	z = (z*26) + 2 + in[n]
+
+	at the end z=0 or (z=4*26..14*26, z%26=16..24) = R[12]
+	at the start z=0 -> z = 2+in[n] == 0 impossible
+	if x == in[n] => z%26 == in[n] 
+		=> at the end z in R[12]
+		=> in[n] = z%26 
+		=> z%26 = 1..9
+		=> z = (j+i..9 | j in R[12]*26) = R[11]
+	else 
+		z is a multiple of 26 + 3..11 and z in R[12]
+		but every j in R[12] j%26=16..24 so z not in R[12]
+
+n = 12
+x = -15 + z%26
+z = z / 26
+if in[n] != x:
+	z = (z*26) + 7 + in[n]
+
+	at the end z is in 4..14
+	at the start either z = 0 -> z=7+in[n] -> in[n] = 1..7
+	or z in 5*26..14*26 and z%26-15 == in[n]
+		so in[n] = 1..9
+		so z%26 = 16..24, z=5*26..14*26
+		len(R[12]) = 90
+
+n = 13
+x = -4 + z%26
+z = z / 26
+if in[n] != x:
+	z = (z*26) + 7 + in[n]
+
+	at the end z has to be 0
+	so at the start z < 26, z-4>0, z-4<10
+	so z < 26, z>4, z<14
+	so in[n] = 1..9 
+
+n = 14
+z = 0
+
+
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -11
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 1
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 15
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 5
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -2
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -6
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 14
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 2
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x 0
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 2
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -15
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -4
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 7
+mul y x
+add z y

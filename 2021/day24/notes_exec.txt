@@ -1,0 +1,252 @@
+inp w
+mul x 0   nop
+add x z   nop
+mod x 26  nop
+div z 1   nop
+add x 13  w=i0, x=13
+eql x w   w=i0, x=0
+eql x 0   w=i0, x=1
+mul y 0   nop
+add y 25  w=i0, x=1, y=25
+mul y x   nop
+add y 1   w=i0, x=1, y=26
+mul z y   nop
+mul y 0   w=i0, x=1
+add y w   w=i0, y=i0, x=1
+add y 8   w=i0, y=i0+8, x=1
+mul y x   nop
+add z y   w=i0, x=1, y=i0+8, z=i0+8
+inp w     w=i1, x=1, y=i0+8, z=i0+8
+mul x 0   w=i1, x=0, y=i0+8, z=i0+8
+add x z   w=i1, x=z=y=i0+8
+mod x 26  w=i1, x=(i0+8)%26, y=i0+8, z=i0+8
+div z 1   nop
+add x 12  w=i1, x=(i0+8)%26+12, y=i0+8, z=i0+8 
+eql x w   w=i1, x=0, y=i0+8, z=i0+8
+eql x 0   w=i1, x=1, y=i0+8, z=i0+8
+mul y 0   w=i1, x=1, y=0, z=i0+8 
+add y 25  w=i1, x=1, y=25, z=i0+8
+mul y x   nop
+add y 1   w=i1, x=1, y=26, z=i0+8
+mul z y   w=i1, x=1, y=26, z=(i0+8)*26
+mul y 0	  w=i1, x=1, y=0, z=(i0+8)*26
+add y w   w=i1, x=1, y=i1, z=(i0+8)*26
+add y 13  w=i1, x=1, y=i1+13, z=(i0+8)*26
+mul y x   nop
+add z y   w=i1, x=1, y=i1+13, z=(i0+8)*26 + i1+13
+inp w     w=i2, x=1, y=i1+13, z=(i0+8)*26 + i1+13
+mul x 0   w=i2, x=0, y=i1+13, z=(i0+8)*26 + i1+13
+add x z   w=i2, x=z, y=i1+13, z=(i0+8)*26 + i1+13
+mod x 26  w=i2, x=z%26, y=i1+13, z=(i0+8)*26 + i1+13
+div z 1   nop
+add x 12  w=i2, x=z%26+12, y=i1+13, z=(i0+8)*26 + i1+13
+eql x w   w=i2, x=0, y=i1+13, z=(i0+8)*26 + i1+13
+eql x 0   w=i2, x=1, y=i1+13, z=(i0+8)*26 + i1+13
+mul y 0   w=i2, x=1, y=0, z=(i0+8)*26 + i1+13
+add y 25  w=i2, x=1, y=25, z=(i0+8)*26 + i1+13
+mul y x   nop
+add y 1   w=i2, x=1, y=26, z=(i0+8)*26 + i1+13
+mul z y   w=i2, x=1, y=26, z=((i0+8)*26 + i1+13)*26
+mul y 0   w=i2, x=1, y=0, z=((i0+8)*26 + i1+13)*26
+add y w   
+add y 8
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -11
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 1
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 15
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 5
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -2
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -6
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 14
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 2
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x 0
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 2
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -15
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -4
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 7
+mul y x
+add z y
