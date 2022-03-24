@@ -19,4 +19,21 @@ fn main() {
         .collect();
 
     println!("x+y = 2020, x*y = {}", res.first().unwrap());
+    
+    let nx = nums.clone().into_iter();
+    let ny = nums.clone().into_iter();
+    let nz = nums.clone().into_iter();
+    let cube = nx.flat_map(|x| {
+        ny.clone().flat_map({
+            let nz = &nz;
+            move |y| nz.clone().map(move |z| (x, y, z))
+        })
+    });
+        
+    let res : Vec<i32> = cube
+        .filter(|(x, y, z)| x+y+z == 2020)
+        .map(|(x, y, z)| x*y*z)
+        .collect();
+
+    println!("x+y+z = 2020, x*y*z = {}", res.first().unwrap());
 }
