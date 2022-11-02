@@ -1,5 +1,7 @@
 use std::fs;
 
+const VALID_CHARS: &str = "0123456789abcdef";
+
 #[derive(Default, Debug)]
 struct Passport {
     birthday_year: Option<i32>,
@@ -54,7 +56,7 @@ impl Passport {
         ret
     }
 
-    fn check(&self) -> bool {
+    fn check_presence(&self) -> bool {
         self.birthday_year.is_some()
             && self.issue_year.is_some()
             && self.expiration_date.is_some()
@@ -63,12 +65,52 @@ impl Passport {
             && self.eye_color.is_some()
             && self.passport_id.is_some()
     }
+
+    fn check_value(&self) -> bool {
+        let mut valid = true;
+        if let Some(byr) = self.birthday_year {
+            valid &= byr >= 1920 && byr <= 2002;
+        }
+        if let Some(iyr) = self.issue_year {
+            valid &= iyr >= 2010 && iyr <= 2020;
+        }
+        if let Some(eyr) = self.expiration_date {
+            valid &= eyr >= 2020 && eyr <= 2030;
+        }
+        if let Some(height) = self.height {
+            valid &= height >= 150 && height <= 193;
+        }
+        if let Some(hair) = &self.hair_color {
+            valid &= hair.len() == 7;
+            valid &= hair.chars().next().unwrap() == '#';
+            valid &= hair
+                .chars()
+                .skip(1)
+                .find(|c| !VALID_CHARS.contains(*c))
+                .is_none();
+        }
+        if let Some(ecl) = &self.eye_color {
+            valid &= ecl == "amb"
+                || ecl == "blu"
+                || ecl == "brn"
+                || ecl == "gry"
+                || ecl == "grn"
+                || ecl == "hzl"
+                || ecl == "oth";
+        }
+        if let Some(pid) = &self.passport_id {
+            valid &= pid.chars().find(|c| !"0123456789".contains(*c)).is_none();
+            valid &= pid.chars().rev().skip(9).find(|c| *c != '0').is_none();
+        }
+        valid
+    }
 }
 
 fn main() {
     let raw = fs::read_to_string("input.txt").unwrap();
 
-    let mut valid = 0;
+    let mut valid_presence = 0;
+    let mut valid_values = 0;
 
     for pass in raw.split("\n\n") {
         let map = pass
@@ -76,9 +118,13 @@ fn main() {
             .map(|s| s.to_string())
             .collect::<Vec<String>>();
         let passport = Passport::from_map(&map);
-        if passport.check() {
-            valid += 1;
+        if passport.check_presence() {
+            valid_presence += 1;
+            if passport.check_value() {
+                valid_values += 1;
+            }
         }
     }
-    println!("{} valid passports", valid);
+    println!("Passports with all field present: {}", valid_presence);
+    println!("Passports with valid values: {}", valid_values);
 }
