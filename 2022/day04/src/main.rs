@@ -73,6 +73,6 @@ mod test {
 
     #[test]
     fn simple() {
-        assert_eq!(sum_lohis(parse_lohis(EXAMPLE), Lohi::contains_whole), 2);
+        assert_eq!(sum_lohis(&parse_lohis(EXAMPLE), Lohi::contains_whole), 2);
     }
 }
