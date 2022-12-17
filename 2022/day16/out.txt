@@ -1,0 +1,3 @@
+
+running 3 tests
+test test::shor_test ... ok
